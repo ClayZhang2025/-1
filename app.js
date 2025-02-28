@@ -1,8 +1,17 @@
 console.log("app.js 已加载并开始执行");
 
-// app.js
+if (typeof cv !== 'undefined') {
+  cv.onRuntimeInitialized = function() {
+    console.log("OpenCV.js 运行时初始化完成，现在可以调用所有 API");
+    initApp();
+  };
+} else {
+  console.error("cv 未定义，请检查 OpenCV.js 是否正确加载");
+}
 
 function initApp() {
+  console.log("initApp() 被调用，开始绑定事件");
+
   const imageInput = document.getElementById('imageInput');
   const startCropBtn = document.getElementById('startCropBtn');
   const detectBtn = document.getElementById('detectBtn');
@@ -15,10 +24,12 @@ function initApp() {
 
   // 监听文件选择，加载图片并初始化 Cropper
   imageInput.addEventListener('change', event => {
+    console.log("文件选择事件触发", event.target.files[0]);
     const file = event.target.files[0];
     if (!file) return;
     const reader = new FileReader();
     reader.onload = function(e) {
+      console.log("FileReader onload 回调执行");
       imagePreview.src = e.target.result;
       imagePreview.style.display = 'block';
       // 如果之前已创建 cropper，先销毁它
@@ -32,12 +43,13 @@ function initApp() {
       // 显示“确定选择区域”按钮
       startCropBtn.style.display = 'inline-block';
       resultDiv.innerHTML = '图片加载成功，请选择需要识别的区域';
-    }
+    };
     reader.readAsDataURL(file);
   });
 
   // 当用户点击“确定选择区域”按钮时，获取裁剪区域并转换为 OpenCV Mat
   startCropBtn.addEventListener('click', () => {
+    console.log("确定选择区域按钮点击");
     if (!cropper) return;
     const croppedCanvas = cropper.getCroppedCanvas();
     if (!croppedCanvas) {
@@ -61,6 +73,7 @@ function initApp() {
 
   // 当用户点击“开始识别”按钮时，执行图像处理（边缘检测、霍夫直线检测）
   detectBtn.addEventListener('click', () => {
+    console.log("开始识别按钮点击");
     if (!croppedMat) {
       resultDiv.innerHTML = '请先选择图片并裁剪区域';
       return;
@@ -108,14 +121,4 @@ function initApp() {
     edges.delete();
     lines.delete();
   });
-}
-
-// 等待 OpenCV.js 运行时初始化完成后，启动整个应用
-if (typeof cv !== 'undefined') {
-  cv.onRuntimeInitialized = function() {
-    console.log("OpenCV.js 运行时初始化完成，现在可以调用所有 API");
-    initApp();
-  };
-} else {
-  console.error("cv 未定义，请检查 OpenCV.js 是否正确加载");
 }
