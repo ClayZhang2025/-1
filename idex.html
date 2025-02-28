@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>慧眼识作业</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>慧眼识作业</h1>
+  <p>请拍照或选择作业本图片：</p>
+  <input type="file" id="imageInput" accept="image/*">
+  <button id="detectBtn">开始识别</button>
+  <div id="result"></div>
+
+  <!-- 引入 TensorFlow.js 和 COCO-SSD 模型 -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.3.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
+  <script src="app.js"></script>
+</body>
+</html>
