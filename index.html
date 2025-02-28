@@ -16,15 +16,33 @@
   <button id="startCropBtn" style="display:none;">确定选择区域</button>
   <button id="detectBtn" style="display:none;">开始识别</button>
   <div id="result"></div>
+
   <!-- 用于展示图片供裁剪 -->
   <img id="imagePreview" style="max-width:100%; display:none;" alt="上传图片预览">
+
   <!-- 用于显示处理后的图像 -->
   <canvas id="canvasOutput"></canvas>
 
-  <!-- 加载 OpenCV.js -->
-  <script async src="https://docs.opencv.org/4.x/opencv.js" onload="onOpenCvReady();"></script>
+  <!-- 加载 OpenCV.js（去掉 async），必须在 app.js 之前 -->
+  <script src="https://docs.opencv.org/4.x/opencv.js"></script>
+
+  <!-- 等待 OpenCV.js 完整初始化 -->
+  <script>
+    if (typeof cv !== 'undefined') {
+      cv.onRuntimeInitialized = () => {
+        console.log("OpenCV.js 运行时初始化完成，现在可以使用 cv.imread 等 API。");
+        // 如果你需要在初始化后立刻执行某些逻辑，可以在这里调用 app.js 中的函数
+        // 例如：initApp(); 或者写更多逻辑
+      };
+    } else {
+      console.error("OpenCV.js 未定义，请检查脚本加载是否正确。");
+    }
+  </script>
+
   <!-- 引入 Cropper.js JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+
+  <!-- 你的主逻辑文件，包含文件上传、裁剪、识别等代码 -->
   <script src="app.js"></script>
 </body>
 </html>
