@@ -6,18 +6,25 @@
   <title>慧眼识作业</title>
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="style.css">
+  <!-- 引入 Cropper.js CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
 </head>
 <body>
   <h1>慧眼识作业</h1>
   <p>请拍照或选择作业本图片：</p>
   <input type="file" id="imageInput" accept="image/*">
-  <button id="detectBtn">开始识别</button>
+  <button id="startCropBtn" style="display:none;">确定选择区域</button>
+  <button id="detectBtn" style="display:none;">开始识别</button>
   <div id="result"></div>
-  <!-- 用于显示检测结果 -->
+  <!-- 用于展示图片供裁剪 -->
+  <img id="imagePreview" style="max-width:100%; display:none;" alt="上传图片预览">
+  <!-- 用于显示处理后的图像 -->
   <canvas id="canvasOutput"></canvas>
 
   <!-- 加载 OpenCV.js -->
   <script async src="https://docs.opencv.org/4.x/opencv.js" onload="onOpenCvReady();"></script>
+  <!-- 引入 Cropper.js JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
