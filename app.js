@@ -1,3 +1,5 @@
+console.log("app.js 已加载并开始执行");
+
 // app.js
 
 function initApp() {
